@@ -1,0 +1,34 @@
+{
+	"name": "Better ChatGPT",
+	"version": "1.0",
+	"manifest_version": 3,
+	"description": "Enhance ChatGPT with voice input and open it as a sidebar on any page.",
+	"background": {
+		"service_worker": "sw.js"
+	},
+	"action": {
+		"default_title": "Open ChatGPT"
+	},
+	"commands": {
+		"_execute_action": {
+			"suggested_key": {
+				"default": "Alt+Shift+S",
+				"mac": "Command+Shift+S"
+			}
+		}
+	},
+	"content_scripts": [
+		{
+			"js": ["contentScript.js"],
+			"matches": ["https://chat.openai.com/chat"],
+			"all_frames": true
+		}
+	],
+	"web_accessible_resources": [
+		{
+			"resources": ["index.html", "contentScript.js"],
+			"matches": ["<all_urls>"]
+		}
+	],
+	"permissions": ["scripting", "activeTab"]
+}
