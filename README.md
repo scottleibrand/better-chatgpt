@@ -11,4 +11,4 @@ To install:
 
 On any web page, use the extension shortcut (default: `Command+Shift+S`) to toggle the ChatGPT sidebar.
 
-Press `Tab` to activate voice input (does not work on all Chromium browsers)
+Press `Tab` to activate voice input. WARNING: this feature may only work on Chrome. Other Chromium browsers like Brave don't support the Web Speech API.
