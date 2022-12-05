@@ -31,7 +31,7 @@ if (window.location.href === 'https://chat.openai.com/chat') {
 		textArea.parentElement.style.borderColor = 'lightgray';
 		recognizing = false;
 		transcript = '';
-		textArea.nextSibling.click();
+		textArea.parentElement.querySelector('button').click();
 	};
 	recognition.onerror = function (event) {
 		console.log('error', event);
