@@ -6,6 +6,8 @@ var __webpack_exports__ = {};
 if (window.location.href === 'https://chat.openai.com/chat') {
 	let textArea;
 	let transcript = '';
+	//if (textArea.value.match(/\/factcheck/)) {textArea.value = "OK! " + textArea.value;}
+
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = false;
 	recognition.interimResults = false;
@@ -41,6 +43,54 @@ if (window.location.href === 'https://chat.openai.com/chat') {
 		textArea.parentElement.style.borderColor = 'lightgray';
 	};
 
+	document.addEventListener(
+		'keydown',
+		(e) => {
+			if (e.code === 'Tab') {
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				textArea = document.querySelector('textarea');
+				if (recognizing) {
+					recognizing = false;
+					recognition.stop();
+				} else recognition.start();
+			} else if (e.code === 'Space') {
+				//e.preventDefault();
+				//e.stopImmediatePropagation();
+				textArea = document.querySelector('textarea');
+				if (textArea.value.match("^/claim")) {
+					let pageText = document.body.innerText;
+					if (pageText.includes("Is there a key factual claim in the previous response")) {
+						textArea.value = "Any others?";
+					} else {
+						textArea.value = "Is there a key factual claim in the previous response? If so, please quote it.";
+					}
+				} else if (textArea.value.match("^/fact")) {
+					fetch("https://google.com/search?q=test", {
+						method: "GET", // specify the request method
+						headers: {
+							// specify the request headers
+							"Content-Type": "text/html"
+						}
+					  })
+						.then(response => response.text()) // parse the response as text
+						.then(html => {
+						  // create a new cheerio object
+						  const $ = cheerio.load(html);
+						  // use cheerio to extract the information you want from the page
+						  let title = $("title").text();
+						  textArea.value = title;
+						})
+						.catch(error => {
+						  // handle any errors
+						  console.error(error);
+						});
+				} else console.log ("No commands recognized.");
+			}
+
+		},
+		true
+	);
 	document.addEventListener(
 		'keydown',
 		(e) => {
